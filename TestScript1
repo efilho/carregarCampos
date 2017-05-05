@@ -1,0 +1,75 @@
+package testesJava;
+
+import java.io.File;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+//import org.openqa.grid.web.servlet.handler.SeleniumBasedRequest;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+//import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class TestScript1 {
+	private WebDriver driverGmail;
+	private WebDriver driverTakeTests;
+	
+	@BeforeClass 
+	public static void setUpBeforeClass() throws Exception {
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
+		driverGmail = new FirefoxDriver();
+		//driver.get("http://www.taketest.com.br");
+		driverGmail.get("https://accounts.google.com/SignUp?service=mail&continue=https://mail.google.com/mail/?pc=topnav-about-en");
+		driverGmail.manage().window().maximize();//maximiza a página
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void encontrarElementosGoogle(){
+		//Caminho do arquivo
+        File file = new java.io.File("C:/Users/treinamento/workspace/testesJava/src/testesJava/test.txt");
+        try{
+        	List<String> lines = FileUtils.readLines(file);
+        	for(String l: lines){
+        		String linhas[] = l.split(", ");
+        		
+	        		WebElement campo = driverGmail.findElement(By.id(linhas[0]));
+	        		if(linhas[0].equals("BirthMonth") || linhas[0].equals("Gender")){
+	        		campo.click();
+        		}
+	        		campo.sendKeys(linhas[1]);
+	        		campo.sendKeys("\n");
+        	}
+        	
+        	WebElement botao = driverGmail.findElement(By.id("submitbutton"));
+        	botao.click();
+        	botao.sendKeys(Keys.ENTER);
+        	
+        	botao = driverGmail.findElement(By.className("tos-scroll-button-content"));
+        	for(int i = 0; i < 5; i++){
+        		botao.click();
+        	}
+        	
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
+	}
+}
