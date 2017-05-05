@@ -1,0 +1,21 @@
+	public void carregarCampos(){
+		String idDoCampo, valorDoCampo;
+		
+        //Path path = Paths.get("C:/Users/treinamento/workspace/testesJava/src/testesJava/test.txt");
+        File file = new java.io.File("C:/Users/treinamento/workspace/testesJava/src/testesJava/test.txt");
+        try{
+        	List<String> lines = FileUtils.readLines(file);
+        	for(String l: lines){
+        		String linhas[] = l.split(", ");
+        		idDoCampo = linhas[0];
+        		valorDoCampo = linhas[1];
+        		System.out.println(idDoCampo);
+        		System.out.println(valorDoCampo);
+        	}
+        	
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
+	}
+	
+	
